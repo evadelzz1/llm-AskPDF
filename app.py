@@ -5,6 +5,7 @@ from langchain.vectorstores import Chroma
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA
+from langchain.callbacks import get_openai_callback
 import streamlit as st
 import tempfile
 import os
@@ -81,7 +82,11 @@ def main():
                         llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
                         qa_chain = RetrievalQA.from_chain_type(llm,retriever=db.as_retriever())
                         result = qa_chain({"query": question})
-                        st.write(result["result"])
+                        with get_openai_callback() as cb:
+                            result = qa_chain({"query": question})
+                            print("\n>> query :", question)
+                            print(cb)
+                            st.write(result["result"])
 
                 with col2:
                     display_pdf(uploaded_file)
