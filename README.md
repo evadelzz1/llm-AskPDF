@@ -14,7 +14,7 @@ Setting up a Virtual Environment
 
     pyenv versions
 
-    echo '.env'  >> .gitignore
+    echo '.env '  >> .gitignore
     echo '.venv' >> .gitignore
 
     echo 'OPENAI_API_KEY=sk-9jz....' >> .env
